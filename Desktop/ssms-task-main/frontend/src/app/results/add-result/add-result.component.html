@@ -1,0 +1,71 @@
+<div class="layout">
+
+  <!-- SIDEBAR -->
+
+  <div class="sidebar">
+
+    <h2>SSMS PANEL</h2>
+
+    <a routerLink="/dashboard">Dashboard</a>
+
+    <a routerLink="/view-result">View Results</a>
+
+  </div>
+
+  <!-- MAIN CONTENT -->
+
+  <div class="main-content">
+
+    <h1 class="page-title">Add Result</h1>
+
+    <div class="form-container">
+
+      <div class="form-group">
+
+        <label>Student Name</label>
+
+        <input
+          [(ngModel)]="studentName"
+          placeholder="Enter student name"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Course</label>
+
+        <input
+          [(ngModel)]="course"
+          placeholder="Enter course"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Score</label>
+
+        <input
+          type="number"
+          [(ngModel)]="score"
+        >
+
+      </div>
+
+      <button
+        class="btn btn-primary"
+        (click)="addResult()"
+      >
+        Submit Result
+      </button>
+
+      <br><br>
+
+      <h2>Grade: {{ grade }}</h2>
+
+    </div>
+
+  </div>
+
+</div>

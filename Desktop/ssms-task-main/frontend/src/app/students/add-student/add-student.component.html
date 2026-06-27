@@ -1,0 +1,52 @@
+<div class="layout">
+
+  <div class="sidebar">
+
+    <h2>SSMS PANEL</h2>
+
+    <a routerLink="/dashboard">Dashboard</a>
+
+    <a routerLink="/view-student">View Students</a>
+
+  </div>
+
+  <div class="main-content">
+
+    <h1 class="page-title">Add Student</h1>
+
+    <div class="form-container">
+
+      <div class="form-group">
+        <label>Name</label>
+        <input [(ngModel)]="student.name">
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input [(ngModel)]="student.email">
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input [(ngModel)]="student.phone">
+      </div>
+
+      <div class="form-group">
+        <label>Course</label>
+        <input [(ngModel)]="student.course">
+      </div>
+
+      <div class="form-group">
+        <label>Date Registered</label>
+        <input type="date" [(ngModel)]="student.dateRegistered">
+      </div>
+
+      <button class="btn btn-primary" (click)="addStudent()">
+        Add Student
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
