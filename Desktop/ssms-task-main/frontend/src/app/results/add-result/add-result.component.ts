@@ -1,76 +1,146 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-add-result',
   standalone: true,
-  imports: [FormsModule, RouterModule],
-  templateUrl: './add-result.component.html'
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ],
+  templateUrl: './add-result.component.html',
+  styleUrls: ['./add-result.component.css']
 })
-export class AddResultsComponent {
+export class AddResultsComponent implements OnInit {
 
-  studentName = '';
+  students: any[] = [];
 
-  course = '';
+  selectedStudentId: number | null = null;
 
-  score = 0;
+  result = {
+    studentId: 0,
+    studentName: '',
+    faculty: '',
+    course: '',
+    score: 0,
+    grade: ''
+  };
 
-  grade = '';
+  ngOnInit(): void {
+    this.loadStudents();
+  }
 
-  results: any[] = [];
+  loadStudents(): void {
+    this.students = JSON.parse(
+      localStorage.getItem('students') || '[]'
+    );
+  }
 
-  calculateGrade() {
+  onStudentChange(): void {
 
-    if (this.score >= 80) {
+    const student = this.students.find(
+      s => s.id === Number(this.selectedStudentId)
+    );
 
-      this.grade = 'A';
+    if (student) {
 
-    } else if (this.score >= 70) {
-
-      this.grade = 'B';
-
-    } else if (this.score >= 60) {
-
-      this.grade = 'C';
-
-    } else if (this.score >= 50) {
-
-      this.grade = 'D';
+      this.result.studentId = student.id;
+      this.result.studentName = student.name;
+      this.result.faculty = student.faculty;
+      this.result.course = student.course;
 
     } else {
 
-      this.grade = 'F';
+      this.result.studentId = 0;
+      this.result.studentName = '';
+      this.result.faculty = '';
+      this.result.course = '';
+
     }
+
   }
 
-  addResult() {
+  calculateGrade(): void {
+
+    const score = Number(this.result.score);
+
+    if (score >= 80) {
+
+      this.result.grade = 'A';
+
+    } else if (score >= 70) {
+
+      this.result.grade = 'B';
+
+    } else if (score >= 60) {
+
+      this.result.grade = 'C';
+
+    } else if (score >= 50) {
+
+      this.result.grade = 'D';
+
+    } else {
+
+      this.result.grade = 'F';
+
+    }
+
+  }
+
+  addResult(): void {
+
+    if (
+      !this.result.studentId ||
+      this.result.score < 0 ||
+      this.result.score > 100
+    ) {
+
+      alert('Please complete all required fields.');
+
+      return;
+
+    }
 
     this.calculateGrade();
 
-    const result = {
+    const results = JSON.parse(
+      localStorage.getItem('results') || '[]'
+    );
 
-      studentName: this.studentName,
-      course: this.course,
-      score: this.score,
-      grade: this.grade
-    };
-
-    const existingResults =
-      JSON.parse(localStorage.getItem('results') || '[]');
-
-    existingResults.push(result);
+    results.push({
+      ...this.result
+    });
 
     localStorage.setItem(
       'results',
-      JSON.stringify(existingResults)
+      JSON.stringify(results)
     );
 
-    alert('Result Added Successfully');
+    alert('Result Added Successfully.');
 
-    this.studentName = '';
-    this.course = '';
-    this.score = 0;
-    this.grade = '';
+    this.resetForm();
+
   }
+
+  resetForm(): void {
+
+    this.selectedStudentId = null;
+
+    this.result = {
+
+      studentId: 0,
+      studentName: '',
+      faculty: '',
+      course: '',
+      score: 0,
+      grade: ''
+
+    };
+
+  }
+
 }
